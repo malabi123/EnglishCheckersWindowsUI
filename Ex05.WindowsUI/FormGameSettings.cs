@@ -5,16 +5,16 @@ namespace Ex05.WindowsUI
 {
     internal class FormGameSettings : Form
     {
-        Label m_labelBoardSize;
-        Label m_labePlayers;
-        Label m_labelPlayer1;
-        CheckBox m_checkBoxPlayer2;
-        RadioButton m_radioButtonSize6;
-        RadioButton m_radioButtonSize8;
-        RadioButton m_radioButtonSize10;
-        TextBox m_textBoxPlayer1Name;
-        TextBox m_textBoxPlayer2Name;
-        Button m_buttonDone;
+        private Label m_labelBoardSize;
+        private Label m_labePlayers;
+        private Label m_labelPlayer1;
+        private CheckBox m_checkBoxPlayer2;
+        private RadioButton m_radioButtonSize6;
+        private RadioButton m_radioButtonSize8;
+        private RadioButton m_radioButtonSize10;
+        private TextBox m_textBoxPlayer1Name;
+        private TextBox m_textBoxPlayer2Name;
+        private Button m_buttonDone;
 
         public FormGameSettings()
         {
