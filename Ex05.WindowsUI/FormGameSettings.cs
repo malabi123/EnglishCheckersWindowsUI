@@ -92,8 +92,8 @@ namespace Ex05.WindowsUI
             this.m_labelBoardSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.m_labelBoardSize.Location = new System.Drawing.Point(12, 9);
             this.m_labelBoardSize.Name = "m_labelBoardSize";
-            this.m_labelBoardSize.Size = new System.Drawing.Size(97, 20);
-            this.m_labelBoardSize.TabIndex = 0;
+            this.m_labelBoardSize.Size = new System.Drawing.Size(114, 25);
+            this.m_labelBoardSize.TabIndex = 9;
             this.m_labelBoardSize.Text = "Board Size:";
             // 
             // m_labePlayers
@@ -103,8 +103,8 @@ namespace Ex05.WindowsUI
             this.m_labePlayers.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.m_labePlayers.Location = new System.Drawing.Point(12, 70);
             this.m_labePlayers.Name = "m_labePlayers";
-            this.m_labePlayers.Size = new System.Drawing.Size(70, 20);
-            this.m_labePlayers.TabIndex = 4;
+            this.m_labePlayers.Size = new System.Drawing.Size(83, 25);
+            this.m_labePlayers.TabIndex = 18;
             this.m_labePlayers.Text = "Players:";
             // 
             // m_radioButtonSize6
@@ -114,8 +114,8 @@ namespace Ex05.WindowsUI
             this.m_radioButtonSize6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.m_radioButtonSize6.Location = new System.Drawing.Point(28, 39);
             this.m_radioButtonSize6.Name = "m_radioButtonSize6";
-            this.m_radioButtonSize6.Size = new System.Drawing.Size(56, 24);
-            this.m_radioButtonSize6.TabIndex = 1;
+            this.m_radioButtonSize6.Size = new System.Drawing.Size(69, 29);
+            this.m_radioButtonSize6.TabIndex = 10;
             this.m_radioButtonSize6.Text = "6x6";
             this.m_radioButtonSize6.UseVisualStyleBackColor = false;
             // 
@@ -126,8 +126,8 @@ namespace Ex05.WindowsUI
             this.m_labelPlayer1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.m_labelPlayer1.Location = new System.Drawing.Point(24, 100);
             this.m_labelPlayer1.Name = "m_labelPlayer1";
-            this.m_labelPlayer1.Size = new System.Drawing.Size(75, 20);
-            this.m_labelPlayer1.TabIndex = 5;
+            this.m_labelPlayer1.Size = new System.Drawing.Size(89, 25);
+            this.m_labelPlayer1.TabIndex = 19;
             this.m_labelPlayer1.Text = "Player 1:";
             // 
             // m_checkBoxPlayer2
@@ -136,8 +136,8 @@ namespace Ex05.WindowsUI
             this.m_checkBoxPlayer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.m_checkBoxPlayer2.Location = new System.Drawing.Point(28, 131);
             this.m_checkBoxPlayer2.Name = "m_checkBoxPlayer2";
-            this.m_checkBoxPlayer2.Size = new System.Drawing.Size(97, 24);
-            this.m_checkBoxPlayer2.TabIndex = 7;
+            this.m_checkBoxPlayer2.Size = new System.Drawing.Size(115, 29);
+            this.m_checkBoxPlayer2.TabIndex = 30;
             this.m_checkBoxPlayer2.Text = "Player 2:";
             this.m_checkBoxPlayer2.CheckedChanged += new System.EventHandler(this.m_checkBoxPlayer2_CheckedChanged);
             // 
@@ -148,8 +148,8 @@ namespace Ex05.WindowsUI
             this.m_radioButtonSize8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.m_radioButtonSize8.Location = new System.Drawing.Point(124, 39);
             this.m_radioButtonSize8.Name = "m_radioButtonSize8";
-            this.m_radioButtonSize8.Size = new System.Drawing.Size(56, 24);
-            this.m_radioButtonSize8.TabIndex = 2;
+            this.m_radioButtonSize8.Size = new System.Drawing.Size(69, 29);
+            this.m_radioButtonSize8.TabIndex = 11;
             this.m_radioButtonSize8.Text = "8x8";
             this.m_radioButtonSize8.UseVisualStyleBackColor = false;
             // 
@@ -160,8 +160,8 @@ namespace Ex05.WindowsUI
             this.m_radioButtonSize10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.m_radioButtonSize10.Location = new System.Drawing.Point(216, 39);
             this.m_radioButtonSize10.Name = "m_radioButtonSize10";
-            this.m_radioButtonSize10.Size = new System.Drawing.Size(74, 24);
-            this.m_radioButtonSize10.TabIndex = 3;
+            this.m_radioButtonSize10.Size = new System.Drawing.Size(91, 29);
+            this.m_radioButtonSize10.TabIndex = 12;
             this.m_radioButtonSize10.Text = "10x10";
             this.m_radioButtonSize10.UseVisualStyleBackColor = false;
             // 
@@ -171,8 +171,8 @@ namespace Ex05.WindowsUI
             this.m_textBoxPlayer1Name.Location = new System.Drawing.Point(168, 97);
             this.m_textBoxPlayer1Name.MaxLength = 20;
             this.m_textBoxPlayer1Name.Name = "m_textBoxPlayer1Name";
-            this.m_textBoxPlayer1Name.Size = new System.Drawing.Size(122, 26);
-            this.m_textBoxPlayer1Name.TabIndex = 8;
+            this.m_textBoxPlayer1Name.Size = new System.Drawing.Size(122, 30);
+            this.m_textBoxPlayer1Name.TabIndex = 20;
             // 
             // m_textBoxPlayer2Name
             // 
@@ -181,8 +181,8 @@ namespace Ex05.WindowsUI
             this.m_textBoxPlayer2Name.Location = new System.Drawing.Point(168, 129);
             this.m_textBoxPlayer2Name.MaxLength = 20;
             this.m_textBoxPlayer2Name.Name = "m_textBoxPlayer2Name";
-            this.m_textBoxPlayer2Name.Size = new System.Drawing.Size(122, 26);
-            this.m_textBoxPlayer2Name.TabIndex = 9;
+            this.m_textBoxPlayer2Name.Size = new System.Drawing.Size(122, 30);
+            this.m_textBoxPlayer2Name.TabIndex = 40;
             this.m_textBoxPlayer2Name.Text = "[Computer]";
             // 
             // m_buttonDone
@@ -191,7 +191,7 @@ namespace Ex05.WindowsUI
             this.m_buttonDone.Location = new System.Drawing.Point(197, 160);
             this.m_buttonDone.Name = "m_buttonDone";
             this.m_buttonDone.Size = new System.Drawing.Size(93, 33);
-            this.m_buttonDone.TabIndex = 10;
+            this.m_buttonDone.TabIndex = 50;
             this.m_buttonDone.Text = "Done";
             this.m_buttonDone.Click += new System.EventHandler(this.m_buttonDone_Click);
             // 

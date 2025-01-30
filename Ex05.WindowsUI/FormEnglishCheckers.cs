@@ -1,4 +1,5 @@
 ﻿using EnglishCheckers;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -38,37 +39,26 @@ namespace Ex05.WindowsUI
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(m_buttonBoard.Left+10, m_buttonBoard.Top - 20);
             this.label1.Name = "label1";
-            this.label1.TabIndex = 0;
             this.label1.Text = string.Format("{0}:", this.m_game.GetFirstPlayerName());            
             // 
             // m_LablePlayer1Score
             // 
             this.m_LablePlayer1Score.AutoSize = true;
-            this.m_LablePlayer1Score.Location = new System.Drawing.Point(label1.Right + 10, label1.Top);
             this.m_LablePlayer1Score.Name = "m_LablePlayer1Score";
-            this.m_LablePlayer1Score.TabIndex = 2;
             this.m_LablePlayer1Score.Text = "0";
             // 
             // m_LablePlayer2Score
             // 
             this.m_LablePlayer2Score.Name = "m_LablePlayer2Score";
-            this.m_LablePlayer2Score.TabIndex = 3;
             this.m_LablePlayer2Score.Text = "0";
             this.m_LablePlayer2Score.AutoSize = true;
-            this.m_LablePlayer2Score.Location = new System.Drawing.Point(m_buttonBoard.Right - 10 - m_LablePlayer2Score.Width,
-                                                                         label1.Top);
             // 
             // label2
             //            
-            this.label2.BackColor = Color.AliceBlue;
             this.label2.Text = string.Format("{0}:", this.m_game.GetSecondPlayerName());
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(m_LablePlayer2Score.Left - 10 - label2.Width,
-                                                            m_LablePlayer2Score.Top);
             this.label2.Name = "label2";
-            this.label2.TabIndex = 1;
 
             // 
             // FormEnglishCheckers
@@ -80,10 +70,30 @@ namespace Ex05.WindowsUI
             this.Controls.Add(this.m_LablePlayer1Score);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            updateLabelsPositions();
             this.Name = "FormEnglishCheckers";
             this.Text = "Damka";
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private void updateLabelsPositions()
+        {
+            label1.Top = this.m_buttonBoard.Top - 20;
+            label1.Left = this.m_buttonBoard.Left + 20;
+
+            m_LablePlayer1Score.Top = label1.Top;
+            m_LablePlayer1Score.Left = label1.Right + 5;
+
+            label2.Top = label1.Top;
+            label2.Left = this.m_buttonBoard.Right - label2.Width - 30;
+
+            m_LablePlayer2Score.Top = label1.Top;
+            m_LablePlayer2Score.Left = label2.Right + 5;
+        }
+       
     }
 }
