@@ -4,9 +4,9 @@
     {
         public static void Main()
         {
-            FormGameSettings gameSettings = new FormGameSettings();
-            gameSettings.ShowDialog();
+            EnglishCheckersWindowsAplication game = new EnglishCheckersWindowsAplication();
             
+            game.Start();
         }
     }
 }

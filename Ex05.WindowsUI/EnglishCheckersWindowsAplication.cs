@@ -11,18 +11,33 @@ namespace Ex05.WindowsUI
 
         public void Start()
         {
-            m_FormEnglishCheckers = new FormEnglishCheckers();
-            m_Game = new Game();
-            
-            m_FormEnglishCheckers.ShowDialog();
+            m_FormGameSettings = new FormGameSettings();
+            m_FormGameSettings.ShowDialog();
 
-            setGameSettings();
-            
+            if (m_FormGameSettings.IsDone)
+            {
+                m_Game = setGameAndSettings();
+                m_FormEnglishCheckers = new FormEnglishCheckers(m_Game);
+                m_FormEnglishCheckers.ShowDialog();
+            }
         }
 
-        private void setGameSettings()
+        private Game setGameAndSettings()
         {
-            m_Game.SetNewPlayer();
+            Game game = new Game();
+
+            game.SetNewPlayer(m_FormGameSettings.Player1Name);
+
+            if (m_FormGameSettings.IsTwoPlayers)
+            {
+                m_Game.SetNewPlayer(m_FormGameSettings.Player2Name);
+            }
+
+            game.SetBoard(m_FormGameSettings.BoardSize);
+
+            game.InitializeFirstGame();
+
+            return game;
         }
     }
 }

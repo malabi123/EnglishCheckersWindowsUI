@@ -17,18 +17,26 @@ namespace Ex05.WindowsUI
         private TextBox m_textBoxPlayer2Name;
         private Button m_buttonDone;
 
+        public FormGameSettings()
+        {
+            InitializeComponent();
+        }
+
+        public bool IsDone { get; private set; } = false;
+
         public string Player1Name
         {
             get
             {
-                string name = string.Empty;
-                
-                if (m_textBoxPlayer1Name != null)
-                {
-                    name = m_textBoxPlayer1Name.Text;
-                }
+                return m_textBoxPlayer1Name.Text;
+            }
+        }
 
-                return name;
+        public string Player2Name
+        {
+            get
+            {
+                return m_textBoxPlayer2Name.Text;
             }
         }
 
@@ -36,21 +44,31 @@ namespace Ex05.WindowsUI
         {
             get
             {
-                bool isTwoPlayers = false;
-                {
-                    if (m_checkBoxPlayer2 != null)
-                    {
-                        isTwoPlayers = m_checkBoxPlayer2.Checked;
-                    }
-                }
-
-                return isTwoPlayers;
+                return m_checkBoxPlayer2.Checked;
             }
         }
 
-        public FormGameSettings( Game i_Game)
+        public int BoardSize
         {
-            InitializeComponent();
+            get
+            {
+                int boardSize = 0;
+
+                if (m_radioButtonSize6.Checked)
+                {
+                    boardSize = 6;
+                }
+                else if (m_radioButtonSize8.Checked)
+                {
+                    boardSize = 8;
+                }
+                else
+                {
+                    boardSize = 10;
+                }
+
+                return boardSize;
+            }
         }
 
         private void InitializeComponent()
@@ -220,6 +238,7 @@ namespace Ex05.WindowsUI
         {
             if (isValidInput())
             {
+                IsDone = true;
                 this.Close();
             }
             else
