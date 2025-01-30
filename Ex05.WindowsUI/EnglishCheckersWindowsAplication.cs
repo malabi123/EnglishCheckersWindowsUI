@@ -30,7 +30,7 @@ namespace Ex05.WindowsUI
 
             if (m_FormGameSettings.IsTwoPlayers)
             {
-                m_Game.SetNewPlayer(m_FormGameSettings.Player2Name);
+                game.SetNewPlayer(m_FormGameSettings.Player2Name);
             }
 
             game.SetBoard(m_FormGameSettings.BoardSize);
