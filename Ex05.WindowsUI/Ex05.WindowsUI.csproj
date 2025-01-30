@@ -39,6 +39,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ButtonBoard.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ButtonSquare.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="FormEnglishCheckers.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -55,6 +61,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FormEnglishCheckers.resx">
+      <DependentUpon>FormEnglishCheckers.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormGameSettings.resx">
       <DependentUpon>FormGameSettings.cs</DependentUpon>
     </EmbeddedResource>
