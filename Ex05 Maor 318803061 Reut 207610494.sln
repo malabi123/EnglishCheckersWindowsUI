@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex05.EnglishCheckers", "EnglishCheckers\Ex05.EnglishCheckers.csproj", "{88DB1CA9-EC04-417F-B4A0-0B2804C8F85B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnglishCheckers", "EnglishCheckers\EnglishCheckers.csproj", "{88DB1CA9-EC04-417F-B4A0-0B2804C8F85B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex05.WindowsUI", "Ex05.WindowsUI\Ex05.WindowsUI.csproj", "{252B351A-5675-48E1-A817-91D6F64F4454}"
 EndProject

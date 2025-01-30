@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using EnglishCheckers;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Ex05.WindowsUI
@@ -16,7 +17,38 @@ namespace Ex05.WindowsUI
         private TextBox m_textBoxPlayer2Name;
         private Button m_buttonDone;
 
-        public FormGameSettings()
+        public string Player1Name
+        {
+            get
+            {
+                string name = string.Empty;
+                
+                if (m_textBoxPlayer1Name != null)
+                {
+                    name = m_textBoxPlayer1Name.Text;
+                }
+
+                return name;
+            }
+        }
+
+        public bool IsTwoPlayers
+        {
+            get
+            {
+                bool isTwoPlayers = false;
+                {
+                    if (m_checkBoxPlayer2 != null)
+                    {
+                        isTwoPlayers = m_checkBoxPlayer2.Checked;
+                    }
+                }
+
+                return isTwoPlayers;
+            }
+        }
+
+        public FormGameSettings( Game i_Game)
         {
             InitializeComponent();
         }

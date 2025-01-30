@@ -39,6 +39,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnglishCheckersWindowsAplication.cs" />
     <Compile Include="FormEnglishCheckers.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +59,12 @@
     <EmbeddedResource Include="FormGameSettings.resx">
       <DependentUpon>FormGameSettings.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EnglishCheckers\EnglishCheckers.csproj">
+      <Project>{88db1ca9-ec04-417f-b4a0-0b2804c8f85b}</Project>
+      <Name>EnglishCheckers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
