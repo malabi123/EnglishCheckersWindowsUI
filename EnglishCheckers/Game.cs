@@ -20,7 +20,6 @@ namespace EnglishCheckers
         private bool m_IsGameFinished=false;
         private bool m_IsGameOn = false;
         private Player m_Winner;
-        private Player m_Loser;
         private string m_LastMove = string.Empty;
                
         public bool SetNewPlayer(string i_PlayerName)
@@ -212,7 +211,6 @@ namespace EnglishCheckers
                 m_IsGameOn = true;
                 m_LastTurnPlayer = null;
                 m_Winner = null;
-                m_Loser = null;
                 m_LastMove = string.Empty;
                 m_Board.InitializeBoard();
                 m_Player1.CleanSoldiersHoldingSquaresList();
@@ -239,7 +237,6 @@ namespace EnglishCheckers
             if (m_CurrentTurnPlayer != null)
             {
                 m_Winner = m_WaitingPlayer;
-                m_Loser = m_CurrentTurnPlayer;
                 finishGame();
                 isQuitOccured = true;
             }
@@ -360,38 +357,6 @@ namespace EnglishCheckers
             }
 
             return name;
-        }
-
-        public string GetLoserName()
-        {
-            string name = string.Empty;
-
-            if (m_Loser != null)
-            {
-                name = m_Loser.Name;
-            }
-
-            return name;
-        }
-  
-        public int GetWinnerScore()
-        {
-            int score = 0;
-            if (m_Winner != null)
-            {
-                score = m_Winner.Score;
-            }
-            return score;
-        }
-
-        public int GetLoserScore()
-        {
-            int score = 0;
-            if (m_Loser != null)
-            {
-                score = m_Loser.Score;
-            }
-            return score;
         }
 
         public int GetFirstPlayerScore()
@@ -591,7 +556,6 @@ namespace EnglishCheckers
                 if (isCurrentPlayerHasMoves() == false)
                 {
                     m_Winner = m_CurrentTurnPlayer;
-                    m_Loser = m_WaitingPlayer;
                 }
 
                 finishGame();
@@ -655,10 +619,17 @@ namespace EnglishCheckers
         {
             int winnerPoints;
             int minPoints = 4;
-            int winnerSoldiersPoints = m_Winner.CalculatePlayerSoldiersPoints();
-            int loserSoldiersPoints = m_Loser.CalculatePlayerSoldiersPoints();
+            int Player1SoldiersPoints = m_Player1.CalculatePlayerSoldiersPoints();
+            int Player2SoldiersPoints = m_Player2.CalculatePlayerSoldiersPoints();
 
-            winnerPoints = Math.Max(minPoints, winnerSoldiersPoints - loserSoldiersPoints);
+            if (m_Winner == m_Player1)
+            {
+                winnerPoints = Math.Max(minPoints, Player1SoldiersPoints - Player2SoldiersPoints);
+            }
+            else
+            {
+                winnerPoints = Math.Max(minPoints, Player2SoldiersPoints - Player1SoldiersPoints);
+            }
 
             return winnerPoints;
         }

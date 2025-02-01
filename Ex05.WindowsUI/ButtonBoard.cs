@@ -54,7 +54,7 @@ namespace Ex05.WindowsUI
 
         private void ButtonSquareBoard_Click(object sender, EventArgs e)
         {
-            ButtonSquare_Click?.Invoke(this, e);
+            ButtonSquare_Click?.Invoke(sender, e);
         }
 
         private bool IsPlaybleButton(int i_Row, int i_Column )

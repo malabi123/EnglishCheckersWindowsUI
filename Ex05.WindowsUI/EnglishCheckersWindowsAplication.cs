@@ -14,6 +14,7 @@ namespace Ex05.WindowsUI
             m_FormGameSettings = new FormGameSettings();
             m_FormGameSettings.ShowDialog();
 
+
             if (m_FormGameSettings.IsDone)
             {
                 m_Game = setGameAndSettings();
@@ -27,15 +28,13 @@ namespace Ex05.WindowsUI
             Game game = new Game();
 
             game.SetNewPlayer(m_FormGameSettings.Player1Name);
-
+            
             if (m_FormGameSettings.IsTwoPlayers)
             {
                 game.SetNewPlayer(m_FormGameSettings.Player2Name);
             }
-
+            
             game.SetBoard(m_FormGameSettings.BoardSize);
-
-            game.InitializeFirstGame();
 
             return game;
         }
