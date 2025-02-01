@@ -116,6 +116,7 @@ namespace Ex05.WindowsUI
             this.m_radioButtonSize6.Name = "m_radioButtonSize6";
             this.m_radioButtonSize6.Size = new System.Drawing.Size(69, 29);
             this.m_radioButtonSize6.TabIndex = 10;
+            this.m_radioButtonSize6.TabStop = true;
             this.m_radioButtonSize6.Text = "6x6";
             this.m_radioButtonSize6.UseVisualStyleBackColor = false;
             // 
@@ -150,6 +151,7 @@ namespace Ex05.WindowsUI
             this.m_radioButtonSize8.Name = "m_radioButtonSize8";
             this.m_radioButtonSize8.Size = new System.Drawing.Size(69, 29);
             this.m_radioButtonSize8.TabIndex = 11;
+            this.m_radioButtonSize8.TabStop = true;
             this.m_radioButtonSize8.Text = "8x8";
             this.m_radioButtonSize8.UseVisualStyleBackColor = false;
             // 
@@ -162,6 +164,7 @@ namespace Ex05.WindowsUI
             this.m_radioButtonSize10.Name = "m_radioButtonSize10";
             this.m_radioButtonSize10.Size = new System.Drawing.Size(91, 29);
             this.m_radioButtonSize10.TabIndex = 12;
+            this.m_radioButtonSize10.TabStop = true;
             this.m_radioButtonSize10.Text = "10x10";
             this.m_radioButtonSize10.UseVisualStyleBackColor = false;
             // 
