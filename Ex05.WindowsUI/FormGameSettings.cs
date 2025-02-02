@@ -1,6 +1,4 @@
-﻿using EnglishCheckers;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Ex05.WindowsUI
 {
@@ -16,13 +14,12 @@ namespace Ex05.WindowsUI
         private TextBox m_textBoxPlayer1Name;
         private TextBox m_textBoxPlayer2Name;
         private Button m_buttonDone;
+        public bool IsDone { get; private set; } = false;
 
         public FormGameSettings()
         {
             InitializeComponent();
         }
-
-        public bool IsDone { get; private set; } = false;
 
         public string Player1Name
         {
@@ -172,7 +169,7 @@ namespace Ex05.WindowsUI
             // 
             this.m_textBoxPlayer1Name.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.m_textBoxPlayer1Name.Location = new System.Drawing.Point(168, 97);
-            this.m_textBoxPlayer1Name.MaxLength = 20;
+            this.m_textBoxPlayer1Name.MaxLength = 10;
             this.m_textBoxPlayer1Name.Name = "m_textBoxPlayer1Name";
             this.m_textBoxPlayer1Name.Size = new System.Drawing.Size(122, 30);
             this.m_textBoxPlayer1Name.TabIndex = 20;
@@ -182,7 +179,7 @@ namespace Ex05.WindowsUI
             this.m_textBoxPlayer2Name.Enabled = false;
             this.m_textBoxPlayer2Name.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
             this.m_textBoxPlayer2Name.Location = new System.Drawing.Point(168, 129);
-            this.m_textBoxPlayer2Name.MaxLength = 20;
+            this.m_textBoxPlayer2Name.MaxLength = 10;
             this.m_textBoxPlayer2Name.Name = "m_textBoxPlayer2Name";
             this.m_textBoxPlayer2Name.Size = new System.Drawing.Size(122, 30);
             this.m_textBoxPlayer2Name.TabIndex = 40;
@@ -218,7 +215,6 @@ namespace Ex05.WindowsUI
             this.Text = "Game Settings";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         private void m_checkBoxPlayer2_CheckedChanged(object sender, System.EventArgs e)
@@ -259,8 +255,8 @@ namespace Ex05.WindowsUI
                 if (m_textBoxPlayer2Name.Text.Length >= 2)
                 {
                     if (m_radioButtonSize6.Checked ||
-                       m_radioButtonSize8.Checked ||
-                       m_radioButtonSize10.Checked)
+                        m_radioButtonSize8.Checked ||
+                        m_radioButtonSize10.Checked)
                     {
                         if (!isPlayersHaveSameName())
                         {
@@ -275,8 +271,8 @@ namespace Ex05.WindowsUI
 
         private bool isPlayersHaveSameName()
         {
-            return (m_checkBoxPlayer2.Checked && 
-                    m_textBoxPlayer1Name.Text==m_textBoxPlayer2Name.Text);
+            return (m_checkBoxPlayer2.Checked &&
+                    m_textBoxPlayer1Name.Text == m_textBoxPlayer2Name.Text);
         }
     }
 }

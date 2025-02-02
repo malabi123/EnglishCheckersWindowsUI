@@ -17,15 +17,16 @@ namespace Ex05.WindowsUI
         private ButtonSquare m_ButtonSquareLastClicked = null;
         private Timer m_Timer;
 
-        public FormEnglishCheckers(Game i_game) 
+        public FormEnglishCheckers(Game i_Game)
         {
-            InitializeComponent(i_game);
+            InitializeComponent(i_Game);
             updateBoard();
         }
 
         private void updateBoard()
         {
             string soldierSign;
+
             for (int i = 0; i < m_Game.GetBoardSize(); i++)
             {
                 for (int j = 0; j < m_Game.GetBoardSize(); j++)
@@ -36,14 +37,13 @@ namespace Ex05.WindowsUI
             }
         }
 
-        private void InitializeComponent(Game i_game)
+        private void InitializeComponent(Game i_Game)
         {
-            this.m_Game = i_game;
+            // 
+            // m_Game
+            //
+            this.m_Game = i_Game;
             this.m_Game.InitializeFirstGame();
-
-            this.m_Timer = new Timer();
-            m_Timer.Interval = 1500;
-            m_Timer.Tick += Timer_Tick;
 
             this.m_ButtonBoard = new ButtonBoard(m_Game.GetBoardSize());
             this.m_LabelPlayer1Name = new System.Windows.Forms.Label();
@@ -52,41 +52,53 @@ namespace Ex05.WindowsUI
             this.m_LablePlayer2Score = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // ButtonBoard
+            // m_Timer
+            //
+            if (this.m_Game.GetIsPlayingWithComputer())
+            {
+                this.m_Timer = new Timer();
+                m_Timer.Interval = 1500;
+                m_Timer.Tick += Timer_Tick;
+            }
+            // 
+            // m_ButtonBoard
             // 
             this.m_ButtonBoard.Top = 30;
             this.m_ButtonBoard.Left = 10;
             this.m_ButtonBoard.ButtonSquare_Click += this.buttonSquare_OnClick;
             // 
-            // label1
+            // m_LabelPlayer1Name
             // 
             this.m_LabelPlayer1Name.AutoSize = true;
-            this.m_LabelPlayer1Name.Name = "label1";
-            this.m_LabelPlayer1Name.Text = string.Format("{0}:", this.m_Game.GetFirstPlayerName());            
+            this.m_LabelPlayer1Name.Name = "m_LabelPlayer1Name";
+            this.m_LabelPlayer1Name.Text = string.Format("{0}:", this.m_Game.GetFirstPlayerName());
+            this.m_LabelPlayer1Name.Font = new Font("Tahoma", 10, FontStyle.Bold);
             // 
             // m_LablePlayer1Score
             // 
             this.m_LablePlayer1Score.AutoSize = true;
             this.m_LablePlayer1Score.Name = "m_LablePlayer1Score";
             this.m_LablePlayer1Score.Text = "0";
+            this.m_LablePlayer1Score.Font = new Font("Tahoma", 10, FontStyle.Bold);
             // 
             // m_LablePlayer2Score
             // 
+            this.m_LablePlayer2Score.AutoSize = true;
             this.m_LablePlayer2Score.Name = "m_LablePlayer2Score";
             this.m_LablePlayer2Score.Text = "0";
-            this.m_LablePlayer2Score.AutoSize = true;
+            this.m_LablePlayer2Score.Font = new Font("Tahoma", 10, FontStyle.Bold);
             // 
-            // label2
+            // m_LabelPlayer2Name
             //            
             this.m_LabelPlayer2Name.Text = string.Format("{0}:", this.m_Game.GetSecondPlayerName());
             this.m_LabelPlayer2Name.AutoSize = true;
-            this.m_LabelPlayer2Name.Name = "label2";
-
+            this.m_LabelPlayer2Name.Name = "m_LabelPlayer2Name";
+            this.m_LabelPlayer2Name.Font = new Font("Tahoma", 10, FontStyle.Bold);
             // 
             // FormEnglishCheckers
             // 
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize =new System.Drawing.Size(this.m_ButtonBoard.Right + 10,this.m_ButtonBoard.Bottom+10);
+            this.ClientSize = new System.Drawing.Size(this.m_ButtonBoard.Right + 10, this.m_ButtonBoard.Bottom + 10);
             this.Controls.Add(this.m_ButtonBoard);
             this.Controls.Add(this.m_LablePlayer2Score);
             this.Controls.Add(this.m_LablePlayer1Score);
@@ -97,7 +109,7 @@ namespace Ex05.WindowsUI
 
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.StartPosition = FormStartPosition.CenterScreen;    
+            this.StartPosition = FormStartPosition.CenterScreen;
             this.Name = "FormEnglishCheckers";
             this.Text = "Damka";
             this.ResumeLayout(false);
@@ -110,13 +122,13 @@ namespace Ex05.WindowsUI
             m_LabelPlayer1Name.Left = this.m_ButtonBoard.Left + 20;
 
             m_LablePlayer1Score.Top = m_LabelPlayer1Name.Top;
-            m_LablePlayer1Score.Left = m_LabelPlayer1Name.Right + 5;
+            m_LablePlayer1Score.Left = m_LabelPlayer1Name.Right + 3;
 
             m_LabelPlayer2Name.Top = m_LabelPlayer1Name.Top;
             m_LabelPlayer2Name.Left = this.m_ButtonBoard.Right - m_LabelPlayer2Name.Width - 30;
 
             m_LablePlayer2Score.Top = m_LabelPlayer1Name.Top;
-            m_LablePlayer2Score.Left = m_LabelPlayer2Name.Right + 5;
+            m_LablePlayer2Score.Left = m_LabelPlayer2Name.Right + 3;
         }
 
         private void buttonSquare_OnClick(object sender, EventArgs e)
@@ -166,18 +178,18 @@ namespace Ex05.WindowsUI
             }
         }
 
-        private bool tryMove(ButtonSquare i_buttonSquare)
+        private bool tryMove(ButtonSquare i_ButtonSquare)
         {
-            return m_Game.MakePlayerMove(m_ButtonSquareLastClicked.Row,m_ButtonSquareLastClicked.Column,
-                                  i_buttonSquare.Row,i_buttonSquare.Column);
+            return m_Game.MakePlayerMove(m_ButtonSquareLastClicked.Row, m_ButtonSquareLastClicked.Column,
+                                  i_ButtonSquare.Row, i_ButtonSquare.Column);
         }
 
         private void tryComputerMove()
         {
             bool isMoveOccured = m_Game.MakeComputerMove();
-            
+
             if (isMoveOccured)
-            {                
+            {
                 m_Timer.Start();
             }
         }
@@ -199,14 +211,12 @@ namespace Ex05.WindowsUI
 
                 string winnerName = m_Game.GetWinnerName();
                 DialogResult result;
-                const string v_DamkaStr = "Damka";
+                const string k_DamkaStr = "Damka";
 
                 if (winnerName != string.Empty)
                 {
                     endGameMessage.Append(winnerName);
                     endGameMessage.AppendLine(" Won!");
-                    
-
                 }
                 else
                 {
@@ -214,9 +224,9 @@ namespace Ex05.WindowsUI
                 }
 
                 endGameMessage.Append("Another Round?");
-                result = MessageBox.Show(endGameMessage.ToString(), v_DamkaStr, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                result = MessageBox.Show(endGameMessage.ToString(), k_DamkaStr, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if(result == DialogResult.Yes)
+                if (result == DialogResult.Yes)
                 {
                     startNewgGameAndUpdateResult(winnerName);
                 }
@@ -228,7 +238,7 @@ namespace Ex05.WindowsUI
 
             return isGameEnd;
         }
-        
+
         private void startNewgGameAndUpdateResult(string i_WinnerName)
         {
             i_WinnerName = string.Format("{0}:", i_WinnerName);
@@ -237,6 +247,7 @@ namespace Ex05.WindowsUI
             {
                 m_LablePlayer1Score.Text = m_Game.GetFirstPlayerScore().ToString();
             }
+
             if (i_WinnerName == m_LabelPlayer2Name.Text)
             {
                 m_LablePlayer2Score.Text = m_Game.GetSecondPlayerScore().ToString();

@@ -1,71 +1,73 @@
-﻿
-namespace EnglishCheckers
+﻿namespace EnglishCheckers
 {
     internal class Board
     {
         private readonly Square[,] r_GameBoard;
-        private readonly eBoardSize r_BoardSize;
-        public readonly bool r_IsXUp=false;
+        private readonly eBoardSize r_GameBoardSize;
+        private readonly bool r_IsXSoldiersIsUpBoard = false;
 
-        public Board(eBoardSize i_size)
+        public Board(eBoardSize i_Size)
         {
-            r_BoardSize = i_size;
-            r_GameBoard = new Square[(int)r_BoardSize, (int)r_BoardSize];
-            r_IsXUp = false;
+            r_GameBoardSize = i_Size;
+            r_GameBoard = new Square[GameBoardSize, GameBoardSize];
+            r_IsXSoldiersIsUpBoard = false;
 
             initializeSquaresAndBoard();
         }
-        
-        public int GameBoardSize
+
+        internal int GameBoardSize
         {
             get
             {
-                return (int)r_BoardSize;
+                return (int)r_GameBoardSize;
             }
         }
 
-        public bool IsXUp
+        internal bool IsXSoldiersIsUpBoard
         {
-            get { return r_IsXUp; }
+            get
+            {
+                return r_IsXSoldiersIsUpBoard;
+            }
         }
 
-        public void UpdateMove(Move i_move,Player i_cuurentTurnPlayer)
+        internal void UpdateMove(Move i_Move, Player i_CurrentTurnPlayer)
         {
-            i_move.EndSquare.SoldierType = i_move.StartSquare.SoldierType;
-            i_move.StartSquare.SoldierReset();
-            checkAndPromote(i_move.EndSquare, i_cuurentTurnPlayer);
+            i_Move.EndSquare.SoldierType = i_Move.StartSquare.SoldierType;
+            i_Move.StartSquare.SoldierReset();
+            checkAndPromote(i_Move.EndSquare, i_CurrentTurnPlayer);
         }
 
-        public void UpdateEatingMove(Move i_move, Player i_cuurentTurnPlayer)
+        internal void UpdateEatingMove(Move i_Move, Player i_CurrentTurnPlayer)
         {
-            Position middleSquarePosition = i_move.GetMiddleSquarePositionFromEatingMove();
+            Position middleSquarePosition = i_Move.GetMiddleSquarePositionFromEatingMove();
             Square middleSquare = GetSquareInPositionWithoutValidationCheck(middleSquarePosition);
-            
+
             middleSquare.SoldierReset();
-            UpdateMove(i_move,i_cuurentTurnPlayer);
+            UpdateMove(i_Move, i_CurrentTurnPlayer);
         }
 
-        public Square GetSquareInPosition(Position i_position)
+        internal Square GetSquareInPosition(Position i_Position)
         {
             Square square = null;
 
-            if (IsPositionOnBoard(i_position))
+            if (IsPositionOnBoard(i_Position))
             {
-                square = r_GameBoard[i_position.Row, i_position.Column];
+                square = r_GameBoard[i_Position.Row, i_Position.Column];
             }
 
             return square;
         }
 
-        public Square GetSquareInPositionWithoutValidationCheck(Position i_position)
+        internal Square GetSquareInPositionWithoutValidationCheck(Position i_Position)
         {
-            return r_GameBoard[i_position.Row, i_position.Column]; ;
+            return r_GameBoard[i_Position.Row, i_Position.Column]; ;
         }
 
-        public bool IsPositionOnBoard(Position i_position)
+        internal bool IsPositionOnBoard(Position i_Position)
         {
-            int row = i_position.Row;
-            int col = i_position.Column;
+            int row = i_Position.Row;
+            int col = i_Position.Column;
 
             return row >= 0 && row < GameBoardSize && col >= 0 && col < GameBoardSize;
         }
@@ -80,15 +82,14 @@ namespace EnglishCheckers
                 for (int col = 0; col < size; col++)
                 {
                     Position position = new Position(row, col);
-                    eSoldierType soldierType=eSoldierType.None;
-                    eSoldierType upSoldierType = IsXUp? eSoldierType.XRegular:eSoldierType.ORegular;
-                    eSoldierType downSoldierType = IsXUp ? eSoldierType.ORegular : eSoldierType.XRegular;
+                    eSoldierType soldierType = eSoldierType.None;
+                    eSoldierType upSoldierType = IsXSoldiersIsUpBoard ? eSoldierType.XRegular : eSoldierType.ORegular;
+                    eSoldierType downSoldierType = IsXSoldiersIsUpBoard ? eSoldierType.ORegular : eSoldierType.XRegular;
 
                     if (position.IsPositionDescribeBlackSquare())
                     {
                         if (row < playerRows)
                         {
-                            
                             soldierType = upSoldierType;
                         }
                         else if (row >= size - playerRows)
@@ -97,18 +98,17 @@ namespace EnglishCheckers
                         }
                     }
 
-                    r_GameBoard[row,col] = new Square(position, soldierType);
+                    r_GameBoard[row, col] = new Square(position, soldierType);
                 }
             }
         }
 
-        public void InitializeBoard()
+        internal void InitializeBoard()
         {
             int size = GameBoardSize;
             int playerRows = (size / 2) - 1;
-            eSoldierType upSoldierType = IsXUp ? eSoldierType.XRegular : eSoldierType.ORegular;
-            eSoldierType downSoldierType = IsXUp ? eSoldierType.ORegular : eSoldierType.XRegular;
-
+            eSoldierType upSoldierType = IsXSoldiersIsUpBoard ? eSoldierType.XRegular : eSoldierType.ORegular;
+            eSoldierType downSoldierType = IsXSoldiersIsUpBoard ? eSoldierType.ORegular : eSoldierType.XRegular;
 
             for (int row = 0; row < size; row++)
             {
@@ -118,7 +118,7 @@ namespace EnglishCheckers
                     Square square = GetSquareInPositionWithoutValidationCheck(position);
 
                     square.SoldierType = eSoldierType.None;
-                    
+
                     if (position.IsPositionDescribeBlackSquare())
                     {
                         if (row < playerRows)
@@ -134,55 +134,54 @@ namespace EnglishCheckers
             }
         }
 
-        private void checkAndPromote(Square i_square, Player i_cuurentTurnPlayer)
+        private void checkAndPromote(Square i_Square, Player i_CurrentTurnPlayer)
         {
-            if (i_square.IsHoldingKing() == false)
+            if (i_Square.IsHoldingKing() == false)
             {
-                if (i_square.Position.Row == 0)
+                if (i_Square.Position.Row == 0)
                 {
-                    bool isXUpPromotion = i_cuurentTurnPlayer.GetSoldiersSign == 'X' && IsXUp == false;
+                    bool isXUpPromotion = i_CurrentTurnPlayer.GetSoldiersSign == 'X' && IsXSoldiersIsUpBoard == false;
 
                     if (isXUpPromotion == true)
                     {
-                        i_square.PromoteSoldier();
+                        i_Square.PromoteSoldier();
                     }
                     else
                     {
-                        bool isOUpPromotion = i_cuurentTurnPlayer.GetSoldiersSign == 'O' && IsXUp == true;
+                        bool isOUpPromotion = i_CurrentTurnPlayer.GetSoldiersSign == 'O' && IsXSoldiersIsUpBoard == true;
 
                         if (isXUpPromotion == true)
                         {
-                            i_square.PromoteSoldier();
+                            i_Square.PromoteSoldier();
                         }
                     }
                 }
-                else if (i_square.Position.Row == GameBoardSize - 1)
+                else if (i_Square.Position.Row == GameBoardSize - 1)
                 {
-                    bool isXDownPromotion = i_cuurentTurnPlayer.GetSoldiersSign == 'X' && IsXUp == true;
+                    bool isXDownPromotion = i_CurrentTurnPlayer.GetSoldiersSign == 'X' && IsXSoldiersIsUpBoard == true;
 
                     if (isXDownPromotion == true)
                     {
-                        i_square.PromoteSoldier();
+                        i_Square.PromoteSoldier();
                     }
                     else
                     {
-                        bool isOUpPromotion = i_cuurentTurnPlayer.GetSoldiersSign == 'O' && IsXUp == false;
+                        bool isOUpPromotion = i_CurrentTurnPlayer.GetSoldiersSign == 'O' && IsXSoldiersIsUpBoard == false;
 
                         if (isOUpPromotion == true)
                         {
-                            i_square.PromoteSoldier();
+                            i_Square.PromoteSoldier();
                         }
                     }
                 }
             }
         }
 
-        public enum eBoardSize
+        internal enum eBoardSize
         {
             Small = 6,
             Medium = 8,
             Large = 10
         }
-
     }
 }

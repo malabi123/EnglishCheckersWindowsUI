@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace EnglishCheckers
 {
     internal class Player
     {
-
-
         private readonly string r_Name;
         private int m_Score = 0;
         public bool IsAI { get; } = false;
-        private List<Square> m_soldiersHoldingSquares;
+        private List<Square> m_SoldiersHoldingSquares;
         private readonly ePlayerSoldiersSign r_SoldiersSign;
 
-        public string Name
+        public Player(string i_Name, bool i_IsAL, ePlayerSoldiersSign i_SoldiersSign)
+        {
+            r_Name = i_Name;
+            IsAI = i_IsAL;
+            m_SoldiersHoldingSquares = new List<Square>();
+            r_SoldiersSign = i_SoldiersSign;
+        }
+
+        internal string Name
         {
             get
             {
@@ -24,7 +26,7 @@ namespace EnglishCheckers
             }
         }
 
-        public int Score
+        internal int Score
         {
             get
             {
@@ -32,44 +34,39 @@ namespace EnglishCheckers
             }
         }
 
-        public char GetSoldiersSign
+        internal char GetSoldiersSign
         {
-            get { return (char)r_SoldiersSign; }
+            get
+            {
+                return (char)r_SoldiersSign;
+            }
         }
 
-        public Player(string i_name, bool i_isAL,ePlayerSoldiersSign i_SoldiersSign)
+        internal void AddPoints(int i_Points)
         {
-            r_Name = i_name;
-            IsAI = i_isAL;
-            m_soldiersHoldingSquares = new List<Square>();
-            r_SoldiersSign = i_SoldiersSign;
+            m_Score += i_Points;
         }
 
-        public void AddPoints(int points)
+        internal void AddSoldierHoldingSquaretoList(Square i_Square)
         {
-            m_Score += points;
+            m_SoldiersHoldingSquares.Add(i_Square);
         }
 
-        public void AddSoldierHoldingSquaretoList(Square square)
+        internal void CleanSoldiersHoldingSquaresList()
         {
-            m_soldiersHoldingSquares.Add(square);
+            m_SoldiersHoldingSquares.Clear();
         }
 
-        public void CleanSoldiersHoldingSquaresList()
+        internal List<Square> GetSoldiersHoldingSquares()
         {
-            m_soldiersHoldingSquares.Clear();
+            return m_SoldiersHoldingSquares;
         }
 
-        public List<Square> GetSoldiersHoldingSquares() 
-        {  
-            return m_soldiersHoldingSquares;
-        }
-
-        public int CalculatePlayerSoldiersPoints()
+        internal int CalculatePlayerSoldiersPoints()
         {
             int sumPoints = 0;
 
-            foreach (Square holdingSoldierSquare in m_soldiersHoldingSquares)
+            foreach (Square holdingSoldierSquare in m_SoldiersHoldingSquares)
             {
                 sumPoints += holdingSoldierSquare.GetSoldierPoints();
             }
@@ -77,16 +74,15 @@ namespace EnglishCheckers
             return sumPoints;
         }
 
-        public void UpdateHoldingSquareListAfterMove(Move i_move)
+        internal void UpdateHoldingSquareListAfterMove(Move i_Move)
         {
-            m_soldiersHoldingSquares.Remove(i_move.StartSquare);
-            m_soldiersHoldingSquares.Add(i_move.EndSquare);
+            m_SoldiersHoldingSquares.Remove(i_Move.StartSquare);
+            m_SoldiersHoldingSquares.Add(i_Move.EndSquare);
         }
 
-        public void UpdateHoldingSquareListAfterEated(Square i_square)
+        internal void UpdateHoldingSquareListAfterEated(Square i_Square)
         {
-            m_soldiersHoldingSquares.Remove(i_square);
+            m_SoldiersHoldingSquares.Remove(i_Square);
         }
     }
 }
-

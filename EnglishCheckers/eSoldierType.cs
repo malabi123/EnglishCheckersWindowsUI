@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EnglishCheckers
+﻿namespace EnglishCheckers
 {
     internal enum eSoldierType
     {
@@ -12,6 +6,6 @@ namespace EnglishCheckers
         ORegular = 'O',
         XKing = 'K',
         OKing = 'U',
-        None=' '
+        None = ' '
     }
 }

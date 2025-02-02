@@ -8,7 +8,7 @@ namespace Ex05.WindowsUI
     {
         private ButtonSquare[,] m_Board;
         public event Action<object, EventArgs> ButtonSquare_Click;
-        
+
         public ButtonBoard(int i_Size)
         {
             InitializeComponent(i_Size);
@@ -27,14 +27,15 @@ namespace Ex05.WindowsUI
                 for (int j = 0; j < i_Size; j++)
                 {
                     m_Board[i, j] = new ButtonSquare(i, j);
-                    m_Board[i, j].Size = new Size(30, 30);
+                    m_Board[i, j].Size = new Size(50, 50);
                     m_Board[i, j].Top = topLocation;
                     m_Board[i, j].Left = leftLocation;
+                    m_Board[i, j].Font = new Font("Tahoma", 14, FontStyle.Bold);
 
-                    if (IsPlaybleButton(i, j))
+                    if (isPlaybleButton(i, j))
                     {
                         m_Board[i, j].BackColor = Color.White;
-                        m_Board[i, j].Click += ButtonSquareBoard_Click;
+                        m_Board[i, j].Click += buttonSquare_OnClick;
                     }
                     else
                     {
@@ -52,19 +53,19 @@ namespace Ex05.WindowsUI
             this.Size = new Size(m_Board[0, 0].Height * i_Size, m_Board[0, 0].Width * i_Size);
         }
 
-        private void ButtonSquareBoard_Click(object sender, EventArgs e)
+        private void buttonSquare_OnClick(object sender, EventArgs e)
         {
             ButtonSquare_Click?.Invoke(sender, e);
         }
 
-        private bool IsPlaybleButton(int i_Row, int i_Column )
+        private bool isPlaybleButton(int i_Row, int i_Column)
         {
             return (i_Row + i_Column) % 2 != 0;
         }
 
-        public void ChangeButtonSquareText(int i_Row, int i_Column, string i_newText)
+        internal void ChangeButtonSquareText(int i_Row, int i_Column, string i_NewText)
         {
-            m_Board[i_Row,i_Column].Text = i_newText;
+            m_Board[i_Row, i_Column].Text = i_NewText;
         }
     }
 }

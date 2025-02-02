@@ -1,9 +1,5 @@
-﻿using EnglishCheckers;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EnglishCheckers
 {
@@ -15,20 +11,20 @@ namespace EnglishCheckers
         private Player m_WaitingPlayer;
         private Player m_LastTurnPlayer;
         private Board m_Board;
+        private Random m_Random = null;
+        private eGameStatus GameStatus { get; set; } = eGameStatus.NotStarted;
         private List<Move> m_PotentialNonEatingMoves;
         private List<Move> m_PotentialEatingMoves;
-        private bool m_IsGameFinished=false;
-        private bool m_IsGameOn = false;
         private Player m_Winner;
         private string m_LastMove = string.Empty;
-               
+
         public bool SetNewPlayer(string i_PlayerName)
         {
             bool isPlayerinitialized = false;
 
-            if (m_IsGameOn == false)
+            if (GameStatus == eGameStatus.NotStarted)
             {
-                if (i_PlayerName.Length < 20 && i_PlayerName.Length > 1)
+                if (i_PlayerName.Length <= 20 && i_PlayerName.Length > 1)
                 {
                     const bool v_isAI = false;
 
@@ -55,7 +51,7 @@ namespace EnglishCheckers
         {
             bool isBoardInitialized = false;
 
-            if (m_IsGameOn == false)
+            if (GameStatus == eGameStatus.NotStarted)
             {
                 if (i_BoardSize == 10 || i_BoardSize == 8 || i_BoardSize == 6)
                 {
@@ -76,27 +72,28 @@ namespace EnglishCheckers
         {
             bool isGameInitialized = false;
 
-            if (m_IsGameOn == false)
+            if (GameStatus == eGameStatus.NotStarted)
             {
                 if (m_Board != null && m_Player2 != null)
                 {
                     if (m_Player1 == null)
                     {
-                        string AIPlayerName = "Computer";
-                        bool isAI = true;
+                        const string k_AIPlayerName = "Computer";
+                        const bool v_isAI = true;
 
-                        m_Player1 = new Player(AIPlayerName, isAI, ePlayerSoldiersSign.O);
+                        m_Player1 = new Player(k_AIPlayerName, v_isAI, ePlayerSoldiersSign.O);
+                        m_Random = new Random();
                     }
 
                     m_CurrentTurnPlayer = m_Player2;
                     m_WaitingPlayer = m_Player1;
+                    GameStatus = eGameStatus.InProgress;
                     m_PotentialEatingMoves = new List<Move>();
                     m_PotentialNonEatingMoves = new List<Move>();
                     fillPlayerListOfSoldierHoldingSquares();
                     updatePotentialMoves();
-                    m_IsGameOn = true;
                     isGameInitialized = true;
-                    }
+                }
             }
 
             return isGameInitialized;
@@ -106,7 +103,7 @@ namespace EnglishCheckers
         {
             bool isMoveOccurred = false;
 
-            if (isPlayerTurn()==true)
+            if (isPlayerTurn() == true)
             {
                 Position startPosition = new Position(i_StartRow, i_StartColumn);
                 Position endPosition = new Position(i_EndRow, i_EndColumn);
@@ -116,11 +113,11 @@ namespace EnglishCheckers
                 if (startSquare != null && endSquare != null)
                 {
                     Move move = new Move(startSquare, endSquare);
-                    
-                    isMoveOccurred = MakeMove(move);
+
+                    isMoveOccurred = makeMove(move);
                 }
             }
-            
+
             return isMoveOccurred;
         }
 
@@ -131,22 +128,20 @@ namespace EnglishCheckers
             if (IsComputerTurn())
             {
                 List<Move> relevantList = m_PotentialEatingMoves.Count == 0 ? m_PotentialNonEatingMoves : m_PotentialEatingMoves;
-                Random random = new Random();
-                int moveIndex = random.Next(relevantList.Count);
+                int moveIndex = m_Random.Next(relevantList.Count);
 
-                isMoveOccured = MakeMove(relevantList[moveIndex]);
+                isMoveOccured = makeMove(relevantList[moveIndex]);
             }
 
             return isMoveOccured;
         }
 
-        private bool MakeMove(Move i_move)
+        private bool makeMove(Move i_move)
         {
             bool isMoveOccurred = false;
 
             if (m_CurrentTurnPlayer != null)
             {
-
                 if (m_PotentialEatingMoves.Count > 0)
                 {
                     if (isMoveInEatingList(i_move) == true)
@@ -181,11 +176,11 @@ namespace EnglishCheckers
 
             if (i_moveStr.Length == 5)
             {
-                if(i_moveStr[2]=='>')
+                if (i_moveStr[2] == '>')
                 {
-                    if(Char.IsUpper(i_moveStr[0])==true && Char.IsUpper(i_moveStr[3]) == true)
+                    if (Char.IsUpper(i_moveStr[0]) == true && Char.IsUpper(i_moveStr[3]) == true)
                     {
-                        if(Char.IsLower(i_moveStr[1]) == true && Char.IsLower(i_moveStr[4])==true)
+                        if (Char.IsLower(i_moveStr[1]) == true && Char.IsLower(i_moveStr[4]) == true)
                         {
                             int startRow = i_moveStr[0] - 'A';
                             int startColumn = i_moveStr[1] - 'a';
@@ -205,10 +200,9 @@ namespace EnglishCheckers
         {
             bool isInitializedNewGame = false;
 
-            if (m_IsGameFinished == true)
+            if (GameStatus == eGameStatus.Finished)
             {
-                m_IsGameFinished = false;
-                m_IsGameOn = true;
+                GameStatus = eGameStatus.InProgress;
                 m_LastTurnPlayer = null;
                 m_Winner = null;
                 m_LastMove = string.Empty;
@@ -227,14 +221,14 @@ namespace EnglishCheckers
 
         public bool GetIsGameFinished()
         {
-            return m_IsGameFinished;
+            return GameStatus == eGameStatus.Finished;
         }
 
         public bool Quit()
         {
             bool isQuitOccured = false;
 
-            if (m_CurrentTurnPlayer != null)
+            if (GameStatus == eGameStatus.InProgress)
             {
                 m_Winner = m_WaitingPlayer;
                 finishGame();
@@ -272,14 +266,14 @@ namespace EnglishCheckers
         {
             string name = string.Empty;
 
-            if (m_CurrentTurnPlayer.Name != null)
+            if (GameStatus == eGameStatus.InProgress)
             {
                 name = m_CurrentTurnPlayer.Name;
             }
 
             return name;
         }
-    
+
         public string GetLastTurnPlayerName()
         {
             string name = string.Empty;
@@ -295,30 +289,36 @@ namespace EnglishCheckers
         public char GetCurrentTurnPlayerSoldiersSign()
         {
             char sign = 'N';
-            if(m_CurrentTurnPlayer!=null)
+
+            if (GameStatus == eGameStatus.InProgress)
             {
                 sign = m_CurrentTurnPlayer.GetSoldiersSign;
             }
+
             return sign;
         }
 
         public char GetLastTurnPlayerSoldiersSign()
         {
             char sign = 'N';
-            if (m_LastTurnPlayer != null)
+
+            if (GameStatus == eGameStatus.InProgress)
             {
                 sign = m_LastTurnPlayer.GetSoldiersSign;
             }
+
             return sign;
         }
 
         public int GetBoardSize()
         {
             int size = 0;
+
             if (m_Board != null)
             {
                 size = m_Board.GameBoardSize;
             }
+
             return size;
         }
 
@@ -331,7 +331,7 @@ namespace EnglishCheckers
         {
             bool isComputerTurn = false;
 
-            if (m_CurrentTurnPlayer != null)
+            if (GameStatus == eGameStatus.InProgress)
             {
                 isComputerTurn = m_CurrentTurnPlayer.IsAI;
             }
@@ -339,14 +339,19 @@ namespace EnglishCheckers
             return isComputerTurn;
         }
 
-        public char GetSquareSoldierSign(int i_row ,int i_column)
+        public bool GetIsPlayingWithComputer()
         {
-            Position position = new Position(i_row, i_column);
-            Square square= m_Board.GetSquareInPosition(position);
-            
+            return m_Player1.IsAI;
+        }
+
+        public char GetSquareSoldierSign(int i_Row, int i_Column)
+        {
+            Position position = new Position(i_Row, i_Column);
+            Square square = m_Board.GetSquareInPosition(position);
+
             return square.GetSquareSoldierSign();
         }
-        
+
         public string GetWinnerName()
         {
             string name = string.Empty;
@@ -362,20 +367,24 @@ namespace EnglishCheckers
         public int GetFirstPlayerScore()
         {
             int score = 0;
+
             if (m_Player2 != null)
             {
                 score = m_Player2.Score;
             }
+
             return score;
         }
 
         public int GetSecondPlayerScore()
         {
             int score = 0;
+
             if (m_Player1 != null)
             {
                 score = m_Player1.Score;
             }
+
             return score;
         }
 
@@ -383,9 +392,9 @@ namespace EnglishCheckers
         {
             bool isPlayerTurn = false;
 
-            if (m_CurrentTurnPlayer != null)
+            if (GameStatus == eGameStatus.InProgress)
             {
-                isPlayerTurn = m_CurrentTurnPlayer.IsAI==false;
+                isPlayerTurn = m_CurrentTurnPlayer.IsAI == false;
             }
 
             return isPlayerTurn;
@@ -418,6 +427,7 @@ namespace EnglishCheckers
         {
             m_PotentialNonEatingMoves.Clear();
             m_PotentialEatingMoves.Clear();
+
             List<Square> soldiersHoldingSquares = m_CurrentTurnPlayer.GetSoldiersHoldingSquares();
 
             foreach (Square soldiersHoldingSquare in soldiersHoldingSquares)
@@ -426,24 +436,24 @@ namespace EnglishCheckers
             }
         }
 
-        private void addPotentialMovesForSoldierToPotentialMoveLists(Square i_soldiersHoldingSquare)
+        private void addPotentialMovesForSoldierToPotentialMoveLists(Square i_SoldiersHoldingSquare)
         {
-            bool isPlayerUp = m_Board.IsXUp == (m_CurrentTurnPlayer.GetSoldiersSign == 'X');
-            Direction[] soldierDirections = DirectionManager.GetSoldierDirections(i_soldiersHoldingSquare.SoldierType,isPlayerUp);
-            
+            bool isPlayerUp = m_Board.IsXSoldiersIsUpBoard == (m_CurrentTurnPlayer.GetSoldiersSign == 'X');
+            Direction[] soldierDirections = DirectionManager.GetSoldierDirections(i_SoldiersHoldingSquare.SoldierType, isPlayerUp);
+
             foreach (Direction direction in soldierDirections)
             {
-                int endSqureRow = i_soldiersHoldingSquare.Position.Row + direction.XDirection;
-                int endSquareColumn = i_soldiersHoldingSquare.Position.Column + direction.YDirection;
+                int endSqureRow = i_SoldiersHoldingSquare.Position.Row + direction.XDirection;
+                int endSquareColumn = i_SoldiersHoldingSquare.Position.Column + direction.YDirection;
                 Position newPosition = new Position(endSqureRow, endSquareColumn);
                 Square targetSquare = m_Board.GetSquareInPosition(newPosition);
 
                 if (targetSquare != null)
                 {
                     if (targetSquare.IsSquareEmpty())
-                    {                        
-                        Move move = new Move(i_soldiersHoldingSquare, targetSquare);
-                        
+                    {
+                        Move move = new Move(i_SoldiersHoldingSquare, targetSquare);
+
                         m_PotentialNonEatingMoves.Add(move);
                     }
                     else
@@ -454,28 +464,31 @@ namespace EnglishCheckers
                         endSquareColumn = endSquareColumn + direction.YDirection;
                         Position jumpPosition = new Position(endSqureRow, endSquareColumn);
                         targetSquare = m_Board.GetSquareInPosition(jumpPosition);
+
                         if (targetSquare != null)
                         {
                             if (targetSquare.IsSquareEmpty())
+                            {
                                 if (middleSquare.isOpponentSoldierAtSquare(m_CurrentTurnPlayer))
                                 {
-                                    Move move = new Move(i_soldiersHoldingSquare, targetSquare);
-                                    
+                                    Move move = new Move(i_SoldiersHoldingSquare, targetSquare);
+
                                     m_PotentialEatingMoves.Add(move);
                                 }
+                            }
                         }
                     }
                 }
             }
         }
 
-        private bool isMoveInEatingList(Move i_newMove)
+        private bool isMoveInEatingList(Move i_NewMove)
         {
             bool isMoveInList = false;
 
             foreach (Move move in m_PotentialEatingMoves)
             {
-                if (i_newMove.Equals(move))
+                if (i_NewMove.Equals(move))
                 {
                     isMoveInList = true;
                     break;
@@ -485,13 +498,13 @@ namespace EnglishCheckers
             return isMoveInList;
         }
 
-        private bool isMoveInNonEatingList(Move i_newMove)
+        private bool isMoveInNonEatingList(Move i_NewMove)
         {
             bool isMoveInList = false;
 
             foreach (Move move in m_PotentialNonEatingMoves)
             {
-                if (i_newMove.Equals(move))
+                if (i_NewMove.Equals(move))
                 {
                     isMoveInList = true;
                     break;
@@ -501,9 +514,9 @@ namespace EnglishCheckers
             return isMoveInList;
         }
 
-        private void afterEatingTurnManager(Square i_soldiersHoldingSquare)
+        private void afterEatingTurnManager(Square i_SoldiersHoldingSquare)
         {
-            if (canContinueEating(i_soldiersHoldingSquare) == false)
+            if (canContinueEating(i_SoldiersHoldingSquare) == false)
             {
                 switchTurn();
             }
@@ -524,10 +537,10 @@ namespace EnglishCheckers
         {
             int winnerPoints;
 
-            m_IsGameFinished = true;
-            m_IsGameOn = false;
-            m_CurrentTurnPlayer= null;
-            m_LastTurnPlayer= null;
+            GameStatus = eGameStatus.Finished;
+            m_CurrentTurnPlayer = null;
+            m_LastTurnPlayer = null;
+
             if (m_Winner != null)
             {
                 winnerPoints = calculateWinnerPoints();
@@ -546,13 +559,14 @@ namespace EnglishCheckers
                 m_LastTurnPlayer = m_WaitingPlayer;
             }
         }
-                
+
         private void checkIsGameFinished()
         {
             if (isCurrentPlayerHasMoves())
             {
                 switchCurrentTurnPlayer();
                 updatePotentialMoves();
+
                 if (isCurrentPlayerHasMoves() == false)
                 {
                     m_Winner = m_CurrentTurnPlayer;
@@ -567,13 +581,15 @@ namespace EnglishCheckers
             return m_PotentialEatingMoves.Count == 0 && m_PotentialNonEatingMoves.Count == 0;
         }
 
-        private bool canContinueEating(Square i_soldiersHoldingSquare)
+        private bool canContinueEating(Square i_SoldiersHoldingSquare)
         {
             bool canContinueEating = false;
 
             m_PotentialNonEatingMoves.Clear();
             m_PotentialEatingMoves.Clear();
-            addPotentialMovesForSoldierToPotentialEatingMoveList(i_soldiersHoldingSquare);
+
+            addPotentialMovesForSoldierToPotentialEatingMoveList(i_SoldiersHoldingSquare);
+
             if (m_PotentialEatingMoves.Count > 0)
             {
                 canContinueEating = true;
@@ -582,15 +598,15 @@ namespace EnglishCheckers
             return canContinueEating;
         }
 
-        private void addPotentialMovesForSoldierToPotentialEatingMoveList(Square i_soldiersHoldingSquare)
+        private void addPotentialMovesForSoldierToPotentialEatingMoveList(Square i_SoldiersHoldingSquare)
         {
-            bool isPlayerUp = m_Board.IsXUp == (m_CurrentTurnPlayer.GetSoldiersSign == 'X');
-            Direction[] soldierDirections = DirectionManager.GetSoldierDirections(i_soldiersHoldingSquare.SoldierType,isPlayerUp);
+            bool isPlayerUp = m_Board.IsXSoldiersIsUpBoard == (m_CurrentTurnPlayer.GetSoldiersSign == 'X');
+            Direction[] soldierDirections = DirectionManager.GetSoldierDirections(i_SoldiersHoldingSquare.SoldierType, isPlayerUp);
 
             foreach (Direction direction in soldierDirections)
             {
-                int squreRow = i_soldiersHoldingSquare.Position.Row + direction.XDirection;
-                int squareColumn = i_soldiersHoldingSquare.Position.Column + direction.YDirection;
+                int squreRow = i_SoldiersHoldingSquare.Position.Row + direction.XDirection;
+                int squareColumn = i_SoldiersHoldingSquare.Position.Column + direction.YDirection;
                 Position position = new Position(squreRow, squareColumn);
                 Square middleSquare = m_Board.GetSquareInPosition(position);
 
@@ -602,11 +618,12 @@ namespace EnglishCheckers
                         squareColumn = squareColumn + direction.YDirection;
                         position = new Position(squreRow, squareColumn);
                         Square targetSquare = m_Board.GetSquareInPosition(position);
+
                         if (targetSquare != null)
                         {
                             if (targetSquare.IsSquareEmpty())
                             {
-                                Move move = new Move(i_soldiersHoldingSquare, targetSquare/*, isJump*/);
+                                Move move = new Move(i_SoldiersHoldingSquare, targetSquare);
                                 m_PotentialEatingMoves.Add(move);
                             }
                         }
@@ -618,18 +635,20 @@ namespace EnglishCheckers
         private int calculateWinnerPoints()
         {
             int winnerPoints;
-            int minPoints = 4;
+            const int k_minPoints = 4;
             int Player1SoldiersPoints = m_Player1.CalculatePlayerSoldiersPoints();
             int Player2SoldiersPoints = m_Player2.CalculatePlayerSoldiersPoints();
 
             if (m_Winner == m_Player1)
             {
-                winnerPoints = Math.Max(minPoints, Player1SoldiersPoints - Player2SoldiersPoints);
+                winnerPoints = Player1SoldiersPoints - Player2SoldiersPoints;
             }
             else
             {
-                winnerPoints = Math.Max(minPoints, Player2SoldiersPoints - Player1SoldiersPoints);
+                winnerPoints = Player2SoldiersPoints - Player1SoldiersPoints;
             }
+
+            winnerPoints = Math.Max(k_minPoints, winnerPoints);
 
             return winnerPoints;
         }
@@ -638,7 +657,5 @@ namespace EnglishCheckers
         {
             m_LastMove = $"{(char)(i_move.StartSquare.Position.Row + 'A')}{(char)(i_move.StartSquare.Position.Column + 'a')}>{(char)(i_move.EndSquare.Position.Row + 'A')}{(char)(i_move.EndSquare.Position.Column + 'a')}";
         }
-
-
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EnglishCheckers
+﻿namespace EnglishCheckers
 {
     internal struct Direction
     {
@@ -35,8 +29,8 @@ namespace EnglishCheckers
 
         public enum eDirectionType
         {
-            Negative=-1,
-            Positive=1
+            Negative = -1,
+            Positive = 1
         }
     }
 }

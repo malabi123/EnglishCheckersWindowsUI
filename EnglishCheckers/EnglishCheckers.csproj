@@ -42,6 +42,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="DirectionManager.cs" />
+    <Compile Include="eGameStatus.cs" />
     <Compile Include="ePlayerSoldiersSign.cs" />
     <Compile Include="eSoldierType.cs" />
     <Compile Include="Game.cs" />

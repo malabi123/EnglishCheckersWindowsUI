@@ -1,4 +1,5 @@
 ﻿using EnglishCheckers;
+
 namespace Ex05.WindowsUI
 {
     internal class EnglishCheckersWindowsAplication
@@ -7,13 +8,10 @@ namespace Ex05.WindowsUI
         private FormGameSettings m_FormGameSettings;
         private Game m_Game;
 
-        public EnglishCheckersWindowsAplication() { }
-
         public void Start()
         {
             m_FormGameSettings = new FormGameSettings();
             m_FormGameSettings.ShowDialog();
-
 
             if (m_FormGameSettings.IsDone)
             {
@@ -28,12 +26,12 @@ namespace Ex05.WindowsUI
             Game game = new Game();
 
             game.SetNewPlayer(m_FormGameSettings.Player1Name);
-            
+
             if (m_FormGameSettings.IsTwoPlayers)
             {
                 game.SetNewPlayer(m_FormGameSettings.Player2Name);
             }
-            
+
             game.SetBoard(m_FormGameSettings.BoardSize);
 
             return game;

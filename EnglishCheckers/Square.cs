@@ -1,44 +1,40 @@
-﻿using EnglishCheckers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EnglishCheckers
+﻿namespace EnglishCheckers
 {
     internal class Square
     {
-        private Position m_position;
+        private Position m_Position;
         public eSoldierType SoldierType { get; set; }
 
-        public Position Position
+        public Square(Position i_Position, eSoldierType i_Type)
         {
-            get { return m_position; }
+            m_Position = i_Position;
+            SoldierType = i_Type;
         }
 
-        public Square(Position i_position, eSoldierType i_type)
+        internal Position Position
         {
-            m_position = i_position;
-            SoldierType = i_type;
+            get
+            {
+                return m_Position;
+            }
         }
 
-        public bool IsBlackSquare()
+        internal bool IsBlackSquare()
         {
             return Position.IsPositionDescribeBlackSquare();
         }
 
-        public bool IsSquareEmpty()
+        internal bool IsSquareEmpty()
         {
             return SoldierType == eSoldierType.None;
         }
 
-        public void SoldierReset()
+        internal void SoldierReset()
         {
             SoldierType = eSoldierType.None;
         }
 
-        public int GetSoldierPoints()
+        internal int GetSoldierPoints()
         {
             int points = 0;
 
@@ -57,19 +53,19 @@ namespace EnglishCheckers
             return points;
         }
 
-        public char GetSquareSoldierSign()
-        {         
+        internal char GetSquareSoldierSign()
+        {
             return (char)SoldierType;
         }
 
-        public bool IsHoldingKing()
+        internal bool IsHoldingKing()
         {
             return SoldierType == eSoldierType.OKing || SoldierType == eSoldierType.XKing;
         }
 
-        public void PromoteSoldier()
+        internal void PromoteSoldier()
         {
-            if(SoldierType==eSoldierType.XRegular)
+            if (SoldierType == eSoldierType.XRegular)
             {
                 SoldierType = eSoldierType.XKing;
             }
@@ -79,11 +75,11 @@ namespace EnglishCheckers
             }
         }
 
-        public bool isOpponentSoldierAtSquare(Player i_currentTurnPlayer)
+        internal bool isOpponentSoldierAtSquare(Player i_CurrentTurnPlayer)
         {
             bool result;
 
-            if (i_currentTurnPlayer.GetSoldiersSign == 'X')
+            if (i_CurrentTurnPlayer.GetSoldiersSign == 'X')
             {
                 result = SoldierType == eSoldierType.OKing || SoldierType == eSoldierType.ORegular;
             }
@@ -94,7 +90,5 @@ namespace EnglishCheckers
 
             return result;
         }
-    } 
-}
-
-        
+    }
+}        
