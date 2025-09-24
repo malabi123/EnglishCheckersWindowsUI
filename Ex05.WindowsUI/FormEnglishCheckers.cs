@@ -232,7 +232,8 @@ namespace Ex05.WindowsUI
                 }
                 else
                 {
-                    this.Close();
+                    if (result == DialogResult.No || result == DialogResult.Cancel)
+                        this.Close();
                 }
             }
 
